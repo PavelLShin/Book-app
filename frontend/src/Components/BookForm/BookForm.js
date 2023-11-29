@@ -1,14 +1,26 @@
 import { useState } from 'react'
+// Этот хук помогает отправлять action в магазин Redux
+import { useDispatch } from 'react-redux'
+// Наш action
+import { addBook } from '../../redux/books/actionCreators'
 import './BookForm.css'
 
 function BookForm() {
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
 
+  // Присваиваем вызов хука переменной
+  const dispatch = useDispatch()
+
   const handelSumbit = (event) => {
     event.preventDefault()
     if (title && author) {
-      // dispatch.action
+      const book = {
+        title: title,
+        author: author,
+      }
+      // Отправляем действие в магазин Redux
+      dispatch(addBook(book))
 
       setAuthor('')
       setTitle('')
