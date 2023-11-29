@@ -17,7 +17,7 @@ function BookList() {
           {/* Итерируемся по массиву данных */}
           {books.map((el, id) => {
             return (
-              <li key={id}>
+              <li key={el.id}>
                 <div className="book-info">
                   {++id}. {el.title} by <strong>{el.author}</strong>
                 </div>

@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { v4 as uuidv4 } from 'uuid'
 // Этот хук помогает отправлять action в магазин Redux
 import { useDispatch } from 'react-redux'
 // Наш action
@@ -18,6 +19,7 @@ function BookForm() {
       const book = {
         title: title,
         author: author,
+        id: uuidv4(),
       }
       // Отправляем действие в магазин Redux
       dispatch(addBook(book))
