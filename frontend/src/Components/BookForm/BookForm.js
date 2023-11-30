@@ -4,6 +4,9 @@ import { v4 as uuidv4 } from 'uuid'
 import { useDispatch } from 'react-redux'
 // Наш action
 import { addBook } from '../../redux/books/actionCreators'
+
+// Добавляем json файл с книгами, который после такого добавления становится js объектом??
+import booksData from '../../data/books.json'
 import './BookForm.css'
 
 function BookForm() {
@@ -12,6 +15,21 @@ function BookForm() {
 
   // Присваиваем вызов хука переменной
   const dispatch = useDispatch()
+
+  // Рандомно добавляем книгу из json
+  const handelAddRandomBook = () => {
+    // Рандомный индекс элемента в массиве книг
+    const randomIndex = Math.floor(Math.random() * booksData.length)
+    const randomBook = booksData[randomIndex]
+
+    // Добавляем к данным из json уникальный id
+    const randomBookWidthId = {
+      ...randomBook,
+      id: uuidv4(),
+    }
+    // Отправляем даныне в redux store (в state)
+    dispatch(addBook(randomBookWidthId))
+  }
 
   const handelSumbit = (event) => {
     event.preventDefault()
@@ -51,6 +69,9 @@ function BookForm() {
           />
         </div>
         <button type="submit">Add Book</button>
+        <button type="button" onClick={handelAddRandomBook}>
+          Add Random
+        </button>
       </form>
     </div>
   )
