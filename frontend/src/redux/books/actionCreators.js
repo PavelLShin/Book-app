@@ -1,9 +1,16 @@
 import * as actionTipes from './ationTipes'
 
-// Эта фугкция принимает книгу
+// Эта функция принимает книгу
 export const addBook = (newBook) => {
   return {
     type: actionTipes.ADD_BOOK,
     payload: newBook,
+  }
+}
+
+export const deleteBook = (id) => {
+  return {
+    type: actionTipes.DELETE_BOOK,
+    payload: id,
   }
 }

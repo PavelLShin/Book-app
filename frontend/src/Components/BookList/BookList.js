@@ -1,5 +1,7 @@
-// С помощью этого хука мы подпишемся на изменение состояния
-import { useSelector } from 'react-redux'
+// С помощью этого хука мы подпишемся на изменение состояния, а с помощью второго передадим action в store
+import { useSelector, useDispatch } from 'react-redux'
+// Удаление книги из списка
+import { deleteBook } from '../../redux/books/actionCreators'
 import './BookList.css'
 
 function BookList() {
@@ -7,6 +9,12 @@ function BookList() {
   const books = useSelector((state) => {
     return state.books
   })
+
+  const dispatch = useDispatch()
+
+  const handleDeleteBook = (id) => {
+    dispatch(deleteBook(id))
+  }
   return (
     <div className="app-block book-list">
       <h2>Book List</h2>
@@ -20,6 +28,11 @@ function BookList() {
               <li key={el.id}>
                 <div className="book-info">
                   {++id}. {el.title} by <strong>{el.author}</strong>
+                </div>
+                <div className="book-actions">
+                  <button onClick={() => handleDeleteBook(el.id)}>
+                    Delete
+                  </button>
                 </div>
               </li>
             )
