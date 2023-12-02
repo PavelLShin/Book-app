@@ -25,6 +25,7 @@ function BookForm() {
     // Добавляем к данным из json уникальный id
     const randomBookWidthId = {
       ...randomBook,
+      isFavorite: false,
       id: uuidv4(),
     }
     // Отправляем даныне в redux store (в state)
@@ -35,6 +36,7 @@ function BookForm() {
     event.preventDefault()
     if (title && author) {
       const book = {
+        isFavorite: false,
         title: title,
         author: author,
         id: uuidv4(),
