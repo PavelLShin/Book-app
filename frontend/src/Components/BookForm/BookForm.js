@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import { v4 as uuidv4 } from 'uuid'
 // Этот хук помогает отправлять action в магазин Redux
 import { useDispatch } from 'react-redux'
 // Наш action
@@ -7,6 +6,9 @@ import { addBook } from '../../redux/books/actionCreators'
 
 // Добавляем json файл с книгами, который после такого добавления становится js объектом??
 import booksData from '../../data/books.json'
+
+// Функция для добавления объекта в redux
+import { createBookWithId } from '../../utils/createBookWithId'
 import './BookForm.css'
 
 function BookForm() {
@@ -23,26 +25,17 @@ function BookForm() {
     const randomBook = booksData[randomIndex]
 
     // Добавляем к данным из json уникальный id
-    const randomBookWidthId = {
-      ...randomBook,
-      isFavorite: false,
-      id: uuidv4(),
-    }
+    createBookWithId(randomBook)
     // Отправляем даныне в redux store (в state)
-    dispatch(addBook(randomBookWidthId))
+    dispatch(addBook(createBookWithId(randomBook)))
   }
 
   const handelSumbit = (event) => {
     event.preventDefault()
     if (title && author) {
-      const book = {
-        isFavorite: false,
-        title: title,
-        author: author,
-        id: uuidv4(),
-      }
+      createBookWithId({ title: title, author: author })
       // Отправляем действие в магазин Redux
-      dispatch(addBook(book))
+      dispatch(addBook(createBookWithId({ title: title, author: author })))
 
       setAuthor('')
       setTitle('')
