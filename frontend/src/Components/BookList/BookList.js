@@ -7,6 +7,7 @@ import { BsBookmarkStar, BsBookmarkStarFill } from 'react-icons/bs'
 // Удаление книги из списка
 import { deleteBook, toogleFavorite } from '../../redux/books/actionCreators'
 import './BookList.css'
+import { selectTitleFilter } from '../../redux/slices/filterSlice'
 
 function BookList() {
   // При вызове функции вызывается кол-бэк с состоянием (или его частью) для подписки
@@ -14,12 +15,22 @@ function BookList() {
     return state.books
   })
 
+  const titleFilter = useSelector(selectTitleFilter)
+
   const dispatch = useDispatch()
 
   // Удаление книги
   const handleDeleteBook = (id) => {
-    dispatch(deleteBook(id))
+    return dispatch(deleteBook(id))
   }
+
+  // Оставляем книги по фильтру
+  const filteredBook = books.filter((book) => {
+    const matchesTitle = book.title
+      .toLowerCase()
+      .includes(titleFilter.toLowerCase())
+    return matchesTitle
+  })
 
   // Добавление книги в избранное
   const handleToggleFavorite = (id) => {
@@ -33,7 +44,7 @@ function BookList() {
       ) : (
         <ul>
           {/* Итерируемся по массиву данных */}
-          {books.map((el, id) => {
+          {filteredBook.map((el, id) => {
             return (
               <li key={el.id}>
                 <div className="book-info">
