@@ -2,6 +2,8 @@ import './Filter.css'
 import {
   selectTitleFilter,
   setTitleFilter,
+  selectOnlyFavoriteFilter,
+  setOnlyFavoriteFilter,
   resetFilters,
   setAuthorFilter,
   selectAuthorFilter,
@@ -13,6 +15,7 @@ function Filter() {
   // Подписываемся на состояние
   const titleFilter = useSelector(selectTitleFilter)
   const authorFilter = useSelector(selectAuthorFilter)
+  const onlyFavoriteFilter = useSelector(selectOnlyFavoriteFilter)
 
   const handleTitleFilterChange = (event) => {
     dispatch(setTitleFilter(event.target.value))
@@ -20,6 +23,10 @@ function Filter() {
 
   const handleAuthorFilterChange = (event) => {
     dispatch(setAuthorFilter(event.target.value))
+  }
+
+  const handleOnlyFavoriteChange = () => {
+    dispatch(setOnlyFavoriteFilter())
   }
 
   const handleResetFilters = () => {
@@ -44,6 +51,17 @@ function Filter() {
             value={authorFilter}
             onChange={handleAuthorFilterChange}
           />
+        </div>
+        <div className="filter-group">
+          <label>
+            <input
+              type="checkbox"
+              checked={onlyFavoriteFilter}
+              // передаём значение checkbox (true/false)
+              onChange={handleOnlyFavoriteChange}
+            />
+            Only favorite
+          </label>
         </div>
 
         <button type="button" onClick={handleResetFilters}>

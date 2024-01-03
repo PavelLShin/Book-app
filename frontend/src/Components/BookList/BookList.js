@@ -10,6 +10,7 @@ import './BookList.css'
 import {
   selectTitleFilter,
   selectAuthorFilter,
+  selectOnlyFavoriteFilter,
 } from '../../redux/slices/filterSlice'
 
 function BookList() {
@@ -20,6 +21,7 @@ function BookList() {
 
   const titleFilter = useSelector(selectTitleFilter)
   const authorFilter = useSelector(selectAuthorFilter)
+  const onlyFavorite = useSelector(selectOnlyFavoriteFilter)
 
   const dispatch = useDispatch()
 
@@ -36,7 +38,9 @@ function BookList() {
     const matchesAuthor = book.author
       .toLowerCase()
       .includes(authorFilter.toLowerCase())
-    return matchesAuthor && matchesTitle
+    const matchesFavorite = onlyFavorite ? book.isFavorite : true
+    // Фильтр по всем показателям
+    return matchesAuthor && matchesTitle && matchesFavorite
   })
 
   // Добавление книги в избранное

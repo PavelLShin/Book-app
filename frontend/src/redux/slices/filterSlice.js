@@ -6,6 +6,7 @@ import { createSlice } from '@reduxjs/toolkit'
 const initialState = {
   title: '',
   author: '',
+  onlyFavorite: false,
 }
 
 // Описываем наш редьюсер
@@ -25,8 +26,11 @@ const filterSlice = createSlice({
     setAuthorFilter: (state, action) => {
       state.author = action.payload
     },
+    setOnlyFavoriteFilter: (state) => {
+      state.onlyFavorite = !state.onlyFavorite
+    },
     // Сброс фильтров
-    resetFilters: (state) => {
+    resetFilters: () => {
       return initialState
     },
   },
@@ -36,6 +40,7 @@ const filterSlice = createSlice({
 export const setTitleFilter = filterSlice.actions.setTitleFilter
 export const resetFilters = filterSlice.actions.resetFilters
 export const setAuthorFilter = filterSlice.actions.setAuthorFilter
+export const setOnlyFavoriteFilter = filterSlice.actions.setOnlyFavoriteFilter
 
 // доступ к filters в useSelector
 export const selectTitleFilter = (state) => {
@@ -44,6 +49,10 @@ export const selectTitleFilter = (state) => {
 
 export const selectAuthorFilter = (state) => {
   return state.filter.author
+}
+
+export const selectOnlyFavoriteFilter = (state) => {
+  return state.filter.onlyFavorite
 }
 
 // Импортируем редьюсер
