@@ -5,6 +5,7 @@ import { createSlice } from '@reduxjs/toolkit'
 // начальное состояние
 const initialState = {
   title: '',
+  author: '',
 }
 
 // Описываем наш редьюсер
@@ -21,6 +22,9 @@ const filterSlice = createSlice({
       // в slices мы можем напрямую менять state без return (Immer библиотека)
       state.title = action.payload
     },
+    setAuthorFilter: (state, action) => {
+      state.author = action.payload
+    },
     // Сброс фильтров
     resetFilters: (state) => {
       return initialState
@@ -31,10 +35,15 @@ const filterSlice = createSlice({
 // это actionCreators (в скобках payload)
 export const setTitleFilter = filterSlice.actions.setTitleFilter
 export const resetFilters = filterSlice.actions.resetFilters
+export const setAuthorFilter = filterSlice.actions.setAuthorFilter
 
 // доступ к filters в useSelector
 export const selectTitleFilter = (state) => {
   return state.filter.title
+}
+
+export const selectAuthorFilter = (state) => {
+  return state.filter.author
 }
 
 // Импортируем редьюсер

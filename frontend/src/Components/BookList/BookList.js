@@ -7,7 +7,10 @@ import { BsBookmarkStar, BsBookmarkStarFill } from 'react-icons/bs'
 // Удаление книги из списка
 import { deleteBook, toogleFavorite } from '../../redux/books/actionCreators'
 import './BookList.css'
-import { selectTitleFilter } from '../../redux/slices/filterSlice'
+import {
+  selectTitleFilter,
+  selectAuthorFilter,
+} from '../../redux/slices/filterSlice'
 
 function BookList() {
   // При вызове функции вызывается кол-бэк с состоянием (или его частью) для подписки
@@ -16,6 +19,7 @@ function BookList() {
   })
 
   const titleFilter = useSelector(selectTitleFilter)
+  const authorFilter = useSelector(selectAuthorFilter)
 
   const dispatch = useDispatch()
 
@@ -29,7 +33,10 @@ function BookList() {
     const matchesTitle = book.title
       .toLowerCase()
       .includes(titleFilter.toLowerCase())
-    return matchesTitle
+    const matchesAuthor = book.author
+      .toLowerCase()
+      .includes(authorFilter.toLowerCase())
+    return matchesAuthor && matchesTitle
   })
 
   // Добавление книги в избранное
