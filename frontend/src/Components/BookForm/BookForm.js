@@ -1,8 +1,10 @@
 import { useState } from 'react'
 // Этот хук помогает отправлять action в магазин Redux
 import { useDispatch } from 'react-redux'
-// Наш action
-import { addBook } from '../../redux/books/actionCreators'
+// // Наш action
+// import { addBook } from '../../redux/books/actionCreators'
+
+import { addBook } from '../../redux/slices/bookSlice'
 
 // Добавляем json файл с книгами, который после такого добавления становится js объектом??
 import booksData from '../../data/books.json'

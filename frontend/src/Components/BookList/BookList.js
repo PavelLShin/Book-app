@@ -4,8 +4,12 @@ import { useSelector, useDispatch } from 'react-redux'
 // Импортируем иконки для добавления в избранное
 import { BsBookmarkStar, BsBookmarkStarFill } from 'react-icons/bs'
 
-// Удаление книги из списка
-import { deleteBook, toogleFavorite } from '../../redux/books/actionCreators'
+import {
+  selectAddBook,
+  deleteBook,
+  toggleFavorite,
+} from '../../redux/slices/bookSlice'
+
 import './BookList.css'
 import {
   selectTitleFilter,
@@ -15,9 +19,7 @@ import {
 
 function BookList() {
   // При вызове функции вызывается кол-бэк с состоянием (или его частью) для подписки
-  const books = useSelector((state) => {
-    return state.books
-  })
+  const books = useSelector(selectAddBook)
 
   const titleFilter = useSelector(selectTitleFilter)
   const authorFilter = useSelector(selectAuthorFilter)
@@ -45,7 +47,7 @@ function BookList() {
 
   // Добавление книги в избранное
   const handleToggleFavorite = (id) => {
-    return dispatch(toogleFavorite(id))
+    return dispatch(toggleFavorite(id))
   }
 
   // Фильтр для подсветки текста
