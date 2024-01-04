@@ -47,6 +47,25 @@ function BookList() {
   const handleToggleFavorite = (id) => {
     return dispatch(toogleFavorite(id))
   }
+
+  // Фильтр для подсветки текста
+  const highlightMatch = (text, filter) => {
+    if (!filter) return text
+
+    const regex = new RegExp(`(${filter})`, `gi`)
+
+    return text.split(regex).map((substring, index) => {
+      if (substring.toLowerCase() === filter.toLowerCase()) {
+        return (
+          <span key={index} className="highlight">
+            {substring}
+          </span>
+        )
+      }
+      return substring
+    })
+  }
+
   return (
     <div className="app-block book-list">
       <h2>Book List</h2>
@@ -59,7 +78,8 @@ function BookList() {
             return (
               <li key={el.id}>
                 <div className="book-info">
-                  {++id}. {el.title} by <strong>{el.author}</strong>
+                  {++id}. {highlightMatch(el.title, titleFilter)} by{' '}
+                  <strong>{highlightMatch(el.author, authorFilter)}</strong>
                 </div>
                 <div className="book-actions">
                   <span onClick={() => handleToggleFavorite(el.id)}>
