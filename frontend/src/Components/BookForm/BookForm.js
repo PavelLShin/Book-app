@@ -1,9 +1,11 @@
 import { useState } from 'react'
 // Этот хук помогает отправлять action в магазин Redux
 import { useDispatch } from 'react-redux'
-// // Наш action
-// import { addBook } from '../../redux/books/actionCreators'
 
+// Импортируем axios
+import axios from 'axios'
+
+// // Наш action
 import { addBook } from '../../redux/slices/bookSlice'
 
 // Добавляем json файл с книгами, который после такого добавления становится js объектом??
@@ -44,6 +46,18 @@ function BookForm() {
       setTitle('')
     }
   }
+
+  // Получение книг из API асинхронно!
+  const handleAddRandomBookViaAPI = async () => {
+    try {
+      const res = await axios.get('http://localhost:4000/random-book')
+      if (res.data && res.data.title && res.data.author) {
+        dispatch(addBook(createBookWithId(res.data)))
+      }
+    } catch (error) {
+      console.log('Error fetching random book', error)
+    }
+  }
   return (
     <div className="app-block book-form">
       <h2>Add a New Book</h2>
@@ -69,6 +83,9 @@ function BookForm() {
         <button type="submit">Add Book</button>
         <button type="button" onClick={handelAddRandomBook}>
           Add Random
+        </button>
+        <button type="button" onClick={handleAddRandomBookViaAPI}>
+          Add Random via API
         </button>
       </form>
     </div>
