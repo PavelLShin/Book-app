@@ -32,7 +32,7 @@ function BookForm() {
     // Добавляем к данным из json уникальный id
     createBookWithId(randomBook)
     // Отправляем даныне в redux store (в state)
-    dispatch(addBook(createBookWithId(randomBook)))
+    dispatch(addBook(createBookWithId(randomBook, 'random')))
   }
 
   const handelSumbit = (event) => {
@@ -40,7 +40,9 @@ function BookForm() {
     if (title && author) {
       createBookWithId({ title: title, author: author })
       // Отправляем действие в магазин Redux
-      dispatch(addBook(createBookWithId({ title: title, author: author })))
+      dispatch(
+        addBook(createBookWithId({ title: title, author: author }, 'manual'))
+      )
 
       setAuthor('')
       setTitle('')
@@ -52,7 +54,7 @@ function BookForm() {
     try {
       const res = await axios.get('http://localhost:4000/random-book')
       if (res.data && res.data.title && res.data.author) {
-        dispatch(addBook(createBookWithId(res.data)))
+        dispatch(addBook(createBookWithId(res.data, 'API')))
       }
     } catch (error) {
       console.log('Error fetching random book', error)
