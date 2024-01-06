@@ -3,7 +3,7 @@ import { useState } from 'react'
 import { useDispatch } from 'react-redux'
 
 // // Наш action
-import { addBook, thunkFunction } from '../../redux/slices/bookSlice'
+import { addBook, fetchBook } from '../../redux/slices/bookSlice'
 
 // Добавляем json файл с книгами, который после такого добавления становится js объектом??
 import booksData from '../../data/books.json'
@@ -48,7 +48,7 @@ function BookForm() {
 
   // Получение книг из API асинхронно при помощи thuncFunction!
   const handleAddRandomBookViaAPI = async () => {
-    dispatch(thunkFunction)
+    dispatch(fetchBook())
   }
   return (
     <div className="app-block book-form">
