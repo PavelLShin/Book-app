@@ -4,6 +4,7 @@ import { createBookWithId } from '../../utils/createBookWithId'
 import axios from 'axios'
 
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
+import { setError } from './errorSlice'
 
 const initialState = []
 
@@ -11,10 +12,17 @@ const initialState = []
 export const fetchBook = createAsyncThunk(
   // начало должно совпадать с name в bookSlice (название типа действия)
   'books/fetchBook',
-  // асинхронная функция
-  async () => {
-    const res = await axios.get('http://localhost:4000/random-book')
-    return res.data
+  // асинхронная функция принимает url и thunkAPI - которая даёт доступ к dispatch
+  async (url, thunkAPI) => {
+    try {
+      const res = await axios.get(url)
+      return res.data
+    } catch (error) {
+      // Тут мы через dispatch отправляем ошибку в errorSlice
+      thunkAPI.dispatch(setError(error.message))
+      // генерируем её заново, чтобы она не попала в  fuilfiled, а попала в rejected
+      throw error
+    }
   }
 )
 
