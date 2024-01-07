@@ -42,7 +42,7 @@ const bookSlice = createSlice({
       )
     },
   },
-  // Редьюсер для асинхронных запросов
+  // Редьюсер для асинхронных запросов 1
   extraReducers: (builder) => {
     // первым аргументом идёт фулфилд запроса, вторым - редьюсер после успешного получения данных (изменение state)
     builder.addCase(fetchBook.fulfilled, (state, action) => {
@@ -55,6 +55,15 @@ const bookSlice = createSlice({
     //   console.log(action)
     // })
   },
+
+  // Редьюсер для асинхронных запросов 2
+  // extraReducers: {
+  //   [fetchBook.fulfilled]: (state, action) => {
+  //     if (action.payload.title && action.payload.author) {
+  //       state.push(createBookWithId(action.payload, 'API'))
+  //     }
+  //   },
+  // },
 })
 
 export const addBook = bookSlice.actions.addBook
