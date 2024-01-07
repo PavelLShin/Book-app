@@ -11,6 +11,8 @@ import booksData from '../../data/books.json'
 // Функция для добавления объекта в redux
 import { createBookWithId } from '../../utils/createBookWithId'
 
+import { setError } from '../../redux/slices/errorSlice'
+
 import './BookForm.css'
 
 function BookForm() {
@@ -43,6 +45,8 @@ function BookForm() {
 
       setAuthor('')
       setTitle('')
+    } else {
+      dispatch(setError('You must fill title and author'))
     }
   }
 
