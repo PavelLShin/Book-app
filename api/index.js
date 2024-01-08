@@ -11,12 +11,23 @@ const app = express()
 // Применяем cors
 app.use(cors())
 
-// Добавляем обработку пути 'localhost:4000/random-book'
-app.get('/random-book', (req, res) => {
-  // Рандомно ищем и отдаём книгу
+// Рандомно ищем и отдаём книгу
+function getRandomBook() {
   const randomIndex = Math.floor(Math.random() * booksData.length)
   const randomBook = booksData[randomIndex]
-  res.json(randomBook)
+  return randomBook
+}
+
+// Добавляем обработку пути 'localhost:4000/random-book'
+app.get('/random-book', (req, res) => {
+  res.json(getRandomBook())
+})
+
+// Добавляем обработку пути 'localhost:4000/random-book-delayer (ответ с задержкой)'
+app.get('/random-book-delayer', (req, res) => {
+  setTimeout(() => {
+    res.json(getRandomBook())
+  }, 2000)
 })
 
 // Запускаем сервер на определённом порту

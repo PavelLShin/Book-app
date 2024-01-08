@@ -32,6 +32,7 @@
   background-color: #0056b3;
 }
 
+/* Спиннер */
 .book-form .spinner {
   animation: spinner 1s infinite linear;
   margin-left: 10px;

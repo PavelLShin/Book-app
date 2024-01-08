@@ -2,6 +2,9 @@ import { useState } from 'react'
 // Этот хук помогает отправлять action в магазин Redux
 import { useDispatch } from 'react-redux'
 
+// Импортируеми спиннер
+import { FaSpinner } from 'react-icons/fa'
+
 // // Наш action
 import { addBook, fetchBook } from '../../redux/slices/bookSlice'
 
@@ -19,6 +22,8 @@ function BookForm() {
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
 
+  const [isLoading, setIsLoading] = useState(false)
+
   // Присваиваем вызов хука переменной
   const dispatch = useDispatch()
 
@@ -34,6 +39,7 @@ function BookForm() {
     dispatch(addBook(createBookWithId(randomBook, 'random')))
   }
 
+  // Добавляем книгу из формы
   const handelSumbit = (event) => {
     event.preventDefault()
     if (title && author) {
@@ -42,7 +48,6 @@ function BookForm() {
       dispatch(
         addBook(createBookWithId({ title: title, author: author }, 'manual'))
       )
-
       setAuthor('')
       setTitle('')
     } else {
@@ -52,7 +57,14 @@ function BookForm() {
 
   // Получение книг из API асинхронно при помощи thuncFunction!
   const handleAddRandomBookViaAPI = async () => {
-    dispatch(fetchBook('http://localhost:4000/random-book'))
+    try {
+      // Начинаем процесс загрузки
+      setIsLoading(true)
+      await dispatch(fetchBook('http://localhost:4000/random-book-delayer'))
+    } finally {
+      // Промис обработался
+      setIsLoading(false)
+    }
   }
   return (
     <div className="app-block book-form">
@@ -80,8 +92,19 @@ function BookForm() {
         <button type="button" onClick={handelAddRandomBook}>
           Add Random
         </button>
-        <button type="button" onClick={handleAddRandomBookViaAPI}>
-          Add Random via API
+        <button
+          type="button"
+          onClick={handleAddRandomBookViaAPI}
+          disabled={isLoading}
+        >
+          {isLoading ? (
+            <>
+              <span>Loading Book...</span>
+              <FaSpinner className="spinner" />
+            </>
+          ) : (
+            'Add Random via API'
+          )}
         </button>
       </form>
     </div>
